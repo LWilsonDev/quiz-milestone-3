@@ -13,19 +13,24 @@ def ask_question(num):
 def get_answer(num):
     return questions[num]['answer']
     
-def question_count():
-    q_count = 1
-    return q_count
-    
 def check_answer(answer):
-    #answer = str(request.form['user_answer']).lower()
     if answer == questions[1]['answer']:
-        return "correct"
-    return "false"    
+        return True
+    return False    
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    q_count = 1
+    display_question = ask_question(q_count)
+    if request.method == "POST":
+        answer = str(request.form['user_answer']).lower()
+        if check_answer(answer) == True:
+            flash("correct")
+        else:
+            flash("false")
+    
+    return render_template('index.html',
+    question=display_question)
 
 app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)  
