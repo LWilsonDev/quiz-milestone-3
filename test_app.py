@@ -26,8 +26,8 @@ class TestQuestions(unittest.TestCase):
     '''
     Function that takes user answer and compares it to the right answer
     '''
-    self.assertTrue(check_answer("oak"))
-    self.assertFalse(check_answer("pansy"))
+    self.assertTrue(check_answer("oak", 1))
+    self.assertFalse(check_answer("pansy", 1))
     
     
 class TestQuestionCounter(unittest.TestCase):

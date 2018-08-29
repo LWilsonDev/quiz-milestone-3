@@ -13,24 +13,66 @@ def ask_question(num):
 def get_answer(num):
     return questions[num]['answer']
     
-def check_answer(answer):
-    if answer == questions[1]['answer']:
+def check_answer(answer, num):
+    if answer == questions[num]['answer']:
         return True
-    return False    
-
+    return False
+    
+def init():
+    score = 0
+    ask_question(1)
+    q_index= 1
+    context = {
+        'q_count': 1,
+        'question': questions[q_index]['question'],
+        'answer': questions[q_index]['answer'],
+        
+    }
+    return context
+    
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    q_count = 1
-    display_question = ask_question(q_count)
-    if request.method == "POST":
-        answer = str(request.form['user_answer']).lower()
-        if check_answer(answer) == True:
-            flash("correct")
-        else:
-            flash("false")
     
-    return render_template('index.html',
-    question=display_question)
+        
+    #display_question = ask_question(q_count)
+    
+        #answer = str(request.form['user_answer']).lower()
+   
+    return render_template('index.html')    
+#        if check_answer(answer, q_count) == True:
+#            flash("correct")
+#            q_count += 1
+#        else:
+#            flash("false")
+#        if request.form['submit_btn'] == 'next':
+#            
+#            return redirect(url_for('index'))    
+#    
+#    return render_template('index.html',
+#    question=display_question)
+
+@app.route('/quiz', methods=['GET', 'POST'])
+def quiz():
+    if request.method == "POST":
+        if request.form['start'] == 'start':
+            context = init()
+            return render_template('quiz.html', context=context)
+        
+#        
+#    
+#    return render_template('quiz.html', context=context)    
+#        if check_answer(answer, q_count) == True:
+#            flash("correct")
+#            q_count += 1
+#        else:
+#            flash("false")
+#        if request.form['submit_btn'] == 'next':
+#            
+#            return redirect(url_for('index'))    
+#    
+#    return render_template('index.html',
+#    question=display_question)
+
 
 app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)  

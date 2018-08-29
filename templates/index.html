@@ -1,21 +1,11 @@
 {% extends 'base.html' %} {% block content %}
 
-<h2>{{ question }}</h2>
+<h2>Know your plants?</h2>
 
-<form method='POST'>
-  <input type='text' name='user_answer'>
-  <button class='btn btn-success submit-btn' type='submit' name="submit_btn" value='submit'>Submit</button>
+<form method='POST' action='/quiz'>
+  <button class='btn btn-success submit-btn' type='start' name="start" value='start'>Start</button>
+  
+  
 </form>
 
-{% with messages = get_flashed_messages() %} 
-{% if messages %} 
-{% for message in messages %}
-<div class="flash alert alert-primary" role="alert">
-  <h3>{{ message }}</h3>
-</div>
-<h4>Click 'Next' to continue</h4>
-<button class='btn btn-primary' type='submit' name="submit_btn" value='next'>Next</button> 
-{% endfor %} 
-{% endif %} 
-{% endwith %} 
 {% endblock %}
