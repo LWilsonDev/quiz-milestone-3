@@ -1,37 +1,39 @@
-import os
-from questions import questions
+import os, json
+
 from flask import Flask, redirect, render_template, request, session, url_for, flash
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 
+########## Functions #############
 
+def get_question_data(index):
+    with open('data/questions.json') as json_questions:
+        questions = json.loads(json_questions.read())
+        return questions[index]
 
-
-
-def ask_question(num):
-    if num <= len(questions):
-        return questions[num]['question']
-    return "finished quiz"    
+def get_question(index):
+    data = get_question_data(index)
+    question = data['question']
+    return question
     
-def get_answer(num):
-    return questions[num]['answer']
+def get_answer(index):
+    data = get_question_data(index)
+    answer = data['answer']
+    return answer
     
-def check_answer(answer, num):
-    if answer == questions[num]['answer']:
+def get_image(index):
+    data = get_question_data(index)
+    image = data['image']
+    return image
+   
+def check_answer(user_answer, index):
+    if user_answer == get_answer(index):
         return True
     return False
-    
-def init():
-    score = 0
-    q_index = 1
-    return q_index
-    
-    
-        
-q_index = 1
-question = ask_question(q_index)
+
+######## Routes ############
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -40,37 +42,36 @@ def index():
 
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
-    global q_index
-    global question
     
+   
     if request.method == "POST":
         
-        if request.form.get('start') == 'start':
-            #POST request coming from landing page ie. start game
-            
-            return render_template('quiz.html', question=question, q_index=q_index)
-        
-        elif request.form['submit_btn'] == 'submit':
-            #POST request from submit button. Check answer
-            answer = str(request.form['user_answer']).lower()
-            q_index = int(request.form.get('q_index'))
-            if check_answer(answer, q_index) == True:
-                flash('YES!')
+        if "q_index" not in session:
+        #start of game - set up first question
+            session["q_index"] = 0
+            session["correct_count"] = 0
+            session["guess_num"] = 2
+            question = get_question(session['q_index'])
+            image = get_image(session['q_index'])
+       
+        if request.form.get('submit_btn', None) == "submit":
+            user_answer = str(request.form['user_answer']).lower()
+            answer = check_answer(user_answer, session['q_index'])
+            if answer == True:
+                flash('Correct')
             else:
-                flash('Incorrect') 
-               
+                flash('Incorrect')
+        
+        if request.form.get('submit_btn', None) == "next":  
+            session["q_index"] += 1
+            return redirect(url_for('quiz'))
             
-            
-        elif request.form['submit_btn'] == 'next':
-            q_index += 1
-            question = ask_question(q_index)
-        return render_template('quiz.html', question=question, q_index=q_index)
-            
+    q_index = session["q_index"]
+    question = get_question(session['q_index'])
+    image = get_image(session['q_index'])    
          
-
-    #if GET request show error and redirect to home page
-    flash('Oops')
-    return redirect('/')
+    return render_template('quiz.html', question=question, q_index=q_index, image=image) 
+    
 
 
 app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)  

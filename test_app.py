@@ -1,33 +1,39 @@
-import unittest
+import unittest, json
 
-from questions import questions
+
 from app import *
 
 
 class TestQuestions(unittest.TestCase):
  
-  def test_ask_question(self):
+  def test_get_question_data(self):
     '''
-    Function that finds the question from the dictionary
+    Function that finds the question index from the json file
     '''
-    self.assertEqual(ask_question(1), "What is the common name for this tree?")
-    self.assertEqual(ask_question(2), "Which japanese plant has leaves like this?")
-    #if question index is > len(questions), should return "finished quiz"
-    self.assertEqual(ask_question(len(questions)+1), "finished quiz")
+    self.assertEqual(get_question_data(0), {"index": 1, "question": "What is the common name for this tree?", "answer": "oak", "image": "../static/images/oak.jpg"})
+    self.assertEqual(get_question_data(3), {"index": 4, "question": "Which fruit tree is this?", "answer": "cherry", "image": "../static/images/cherry.jpg"})
     
-  def test_get_answer(self):
+  def test_get_answer(self): 
     '''
     Function that finds the answer from the dictionary
     '''  
-    self.assertEqual(get_answer(1), "oak")
-    self.assertEqual(get_answer(2), "wasabi")
+    self.assertEqual(get_answer(0), "oak")
+    self.assertEqual(get_answer(1), "wasabi")
+    
+  def test_get_image(self):
+    '''
+    Function that finds the images from the dictionary
+    '''  
+    self.assertEqual(get_image(0), "../static/images/oak.jpg")
+    self.assertEqual(get_image(1), "../static/images/wasabi.JPG")  
     
   def test_check_answer(self):
     '''
     Function that takes user answer and compares it to the right answer
     '''
-    self.assertTrue(check_answer("oak", 1))
-    self.assertFalse(check_answer("pansy", 1))
+    self.assertTrue(check_answer("oak", 0))
+    self.assertFalse(check_answer("pansy", 0))
+    self.assertTrue(check_answer("wasabi", 1))
     
     
 class TestQuestionCounter(unittest.TestCase):
