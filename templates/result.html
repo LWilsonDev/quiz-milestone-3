@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% block content %}
+<div class='container-fluid maple-bg'>
+  <div class="jumbotron text-center intro-container">
+    <div class='intro-content'>
+      {% if low_score %}
+      <h1 class='display-7 title text-center'>Better luck next time!</h1>
+      {% else %}
+      <h1 class='display-7 title text-center'>Well done, You really know your plants!</h1>
+      {% endif %}
+      <h2 class="lead sub-title">You scored {{ user_score }} out of {{ total_questions }}</h2>
+      <hr>
+      <p>Enter a username to add your score to the leaderboard!</p>
+      <form method='POST'>
+        <input type='text' name='username' placeholder='enter a username'>
+        <button type='submit' class="btn btn-primary" name="result_btn" value='leaderboard'>Add to Leaderboard</button>
+        <button type='submit' class="btn btn-success" name="result_btn" value='again'>Try Again</button>
+        <button type='submit' class="btn btn-danger" name="result_btn" value='exit'>Exit</button>
+        
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
