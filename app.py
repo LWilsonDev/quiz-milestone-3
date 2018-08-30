@@ -60,32 +60,37 @@ def quiz():
         #start of game - set up first question
             session["q_index"] = 0
             session["score"] = 0
-            session["guess"] = 0
+            session["guess"] = 2
             question = get_question(session['q_index'])
             image = get_image(session['q_index'])
        
         if request.form.get('submit_btn', None) == "submit":
+            #User submits answer
             user_answer = str(request.form['user_answer']).lower()
             answer = check_answer(user_answer, session['q_index'])
-            session['guess'] += 1
             
-            if session['guess'] <= 2:
+            
+            #Check how many guesses left
+            if session['guess'] > 0:
                 if answer == True:
                     session["score"] += 1
-                    session['guess'] = 3 #So that the same correct answer can't be entered again
+                    session['guess'] = 0 #So that the same correct answer can't be entered again
                     flash('Correct')
                 else:
-                    if session['guess'] == 1:
+                    if session['guess'] == 2:
+                        session['guess'] -= 1
                         flash('Incorrect, try again')
-                    elif session['guess'] == 2:
+                    elif session['guess'] == 1:
                         answer = get_answer(session['q_index'])
+                        session['guess'] -= 1
                         flash('Incorrect. The answer is ' + answer.capitalize())
             else:
                 flash('You are out of guesses! Click Next to continue')
                 
         if request.form.get('submit_btn', None) == "next":
+            # Onto next question or results page if out of questions. Reset guess count
             num_qestions = how_many_questions()
-            session['guess'] = 0
+            session['guess'] = 2
             if session["q_index"] < num_qestions-1:
                 session["q_index"] += 1
                 return redirect(url_for('quiz'))
@@ -93,14 +98,17 @@ def quiz():
                 # Display different message if user has scored less than half correct)
                 low_score = session["score"] < num_qestions/2
                     
-               
-                return render_template('result.html', total_questions=num_qestions, user_score=session["score"], low_score=low_score)
+                return render_template('result.html', 
+                    total_questions=num_qestions, 
+                    user_score=session["score"], 
+                    low_score=low_score,
+                    guess_count=session['guess'])
             
     q_index = session["q_index"]
     question = get_question(session['q_index'])
     image = get_image(session['q_index'])    
          
-    return render_template('quiz.html', question=question, q_index=q_index, image=image) 
+    return render_template('quiz.html', question=question, q_index=q_index, image=image, guess_count=session['guess']) 
     
 
 
