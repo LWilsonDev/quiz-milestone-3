@@ -10,8 +10,8 @@ class TestQuestions(unittest.TestCase):
     '''
     Function that finds the question index from the json file
     '''
-    self.assertEqual(get_question_data(0), {"index": 1, "question": "What is the common name for this tree?", "answer": "oak", "image": "../static/images/oak.jpg"})
-    self.assertEqual(get_question_data(3), {"index": 4, "question": "Which fruit tree is this?", "answer": "cherry", "image": "../static/images/cherry.jpg"})
+    self.assertEqual(get_question_data(0), {"question": "What is the common name for this tree?", "answer": "oak", "image": "../static/images/oak.jpg"})
+    self.assertEqual(get_question_data(3), {"question": "Which fruit tree is this?", "answer": "cherry", "image": "../static/images/cherry.jpg"})
     
   def test_get_answer(self): 
     '''
@@ -34,12 +34,6 @@ class TestQuestions(unittest.TestCase):
     self.assertTrue(check_answer("oak", 0))
     self.assertFalse(check_answer("pansy", 0))
     self.assertTrue(check_answer("wasabi", 1))
-    
-    
-class TestQuestionCounter(unittest.TestCase):
-    
-  def test_question_count(self):
-    pass
     
     
 

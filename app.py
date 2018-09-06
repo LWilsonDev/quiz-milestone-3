@@ -40,6 +40,10 @@ def check_answer(user_answer, index):
     if user_answer == get_answer(index):
         return True
     return False
+    
+def save_to_leaderboard(username, score):
+    with open('data/leaderboard.txt', 'a') as file:
+        file.writelines('{0}: {1}\n'.format(username, score))    
 
 ######## Routes ############
 
@@ -61,14 +65,12 @@ def quiz():
             session["q_index"] = 0
             session["score"] = 0
             session["guess"] = 2
-            question = get_question(session['q_index'])
-            image = get_image(session['q_index'])
-       
-        if request.form.get('submit_btn', None) == "submit":
+            
+       # SUBMIT Button
+        if "submit" in request.form:
             #User submits answer
             user_answer = str(request.form['user_answer']).lower()
             answer = check_answer(user_answer, session['q_index'])
-            
             
             #Check how many guesses left
             if session['guess'] > 0:
@@ -86,30 +88,72 @@ def quiz():
                         flash('Incorrect. The answer is ' + answer.capitalize())
             else:
                 flash('You are out of guesses! Click Next to continue')
-                
-        if request.form.get('submit_btn', None) == "next":
+        
+        # NEXT Button        
+        if "next" in request.form:
             # Onto next question or results page if out of questions. Reset guess count
             num_qestions = how_many_questions()
             session['guess'] = 2
             if session["q_index"] < num_qestions-1:
                 session["q_index"] += 1
                 return redirect(url_for('quiz'))
-            else:
-                # Display different message if user has scored less than half correct)
-                low_score = session["score"] < num_qestions/2
-                    
-                return render_template('result.html', 
-                    total_questions=num_qestions, 
-                    user_score=session["score"], 
-                    low_score=low_score,
-                    guess_count=session['guess'])
+            else: 
+                #Finished quiz - no more questions
+                return redirect(url_for('result'))
             
     q_index = session["q_index"]
     question = get_question(session['q_index'])
     image = get_image(session['q_index'])    
          
-    return render_template('quiz.html', question=question, q_index=q_index, image=image, guess_count=session['guess']) 
+    return render_template('quiz.html', 
+                question=question, 
+                q_index=q_index, 
+                image=image, 
+                guess_count=session['guess']) 
+
+
+@app.route('/result', methods=['GET', 'POST'])
+def result():
+    num_qestions = how_many_questions()
+    low_score = session["score"] < num_qestions/2
+     # Display different message if user has scored less than half correct)
     
-
-
+    if request.method == "POST":
+        
+        # Leaderboard button: add name to leaderboard and view leaders
+        if "leaderboard" in request.form:
+            username = str(request.form['username'])
+            save_to_leaderboard(username, session['score'])
+            return redirect(url_for('leaderboard'))
+            
+        # Again button: start quiz from beginning    
+        if "again" in request.form:
+            session["q_index"] = 0
+            session["score"] = 0
+            session["guess"] = 2
+            return redirect(url_for('quiz'))  
+        
+        if "exit" in request.form:
+            return redirect(url_for('index'))
+    
+    return render_template('result.html', 
+                    total_questions=num_qestions, 
+                    user_score=session["score"], 
+                    low_score=low_score,
+                    guess_count=session['guess'])
+  
+  
+@app.route('/leaderboard', methods=['GET', 'POST'])
+def leaderboard(): 
+    with open('data/leaderboard.txt', 'r') as f:
+        data=f.readlines()
+        score_list=[]
+    # Sorting data code adapted from https://stackoverflow.com/questions/32631581/python-how-do-i-sort-integers-in-a-text-file-into-ascending-and-or-descending-o    
+    for line in data:
+        score_list.append(line)
+        sorted_data = sorted(score_list, key=lambda item: int(item.rsplit(': ')[-1].strip()), reverse=True)
+        
+    return render_template('leaderboard.html',
+                    sorted_data=sorted_data)
+    
 app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)  
