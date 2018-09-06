@@ -1,11 +1,17 @@
 {% extends 'base.html' %} {% block content %}
 
-<h2>Know your plants?</h2>
+<div class='container-fluid maple-bg'>
+  <div class="jumbotron text-center intro-container">
+    <div class='intro-content'>
+      <h1 class="display-4 title">Know your plants?</h1>
+      <h2 class='lead sub-title'>The little quiz to test your plant identification skills</h2>
+      <hr>
+      <form method='POST' action='/quiz'>
+        <button class='btn btn-success btn-lg submit-btn' type='start' name="start" value='start'>Start Quiz</button>
+      </form>
+    </div>
+  </div>
+</div>
 
-<form method='POST' action='/quiz'>
-  <button class='btn btn-success submit-btn' type='start' name="start" value='start'>Start</button>
-  
-  
-</form>
 
 {% endblock %}

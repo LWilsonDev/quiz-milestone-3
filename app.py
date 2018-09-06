@@ -81,7 +81,7 @@ def quiz():
                 else:
                     if session['guess'] == 2:
                         session['guess'] -= 1
-                        flash('Incorrect, try again')
+                        flash('Incorrect, try again or continue to next question')
                     elif session['guess'] == 1:
                         answer = get_answer(session['q_index'])
                         session['guess'] -= 1

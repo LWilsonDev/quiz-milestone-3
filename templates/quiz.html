@@ -1,33 +1,37 @@
 {% extends 'base.html' %} {% block content %}
-
-
+<div class="page-wrapper container-fluid">
+  <div class='row'>
     <div class="col container-fluid bg-image" style="background-image: url({{ image }});">
     </div>
-  
+  </div>
+  <div class='row'>
+    <div class='col'>
+      <div class='container quiz-content text-center'>
+        <h2>{{ question }}</h2>
+        <p>Guesses remaining: {{ guess_count }}</p>
+        <div class='form_and_btns'>
+          <form method='POST'>
+            <input type='text' name='user_answer'>
+            <button class='btn btn-success' type='submit' name="submit" value='submit'>Submit</button> 
+            {% with messages = get_flashed_messages() %} 
+              {% if messages %} 
+                {% for message in messages %}
+            <div class="flash alert alert-primary" role="alert">
+              <h3 class='message'>{{ message }}</h3>
+            </div>
+            <h4 class='message'>Click 'Next' to continue</h4>
+            <button class='btn btn-primary' type='submit' name="next" value='next'>Next</button>  
+                {% endfor %} 
+              {% endif %} 
+            {% endwith %}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
-
-<h2>{{ question }}</h2>
-<p>Guesses remaining: {{ guess_count }}</p>
-
-<form method='POST'>
-  
-  <input type='text' name='user_answer'>
-  <button class='btn btn-success submit-btn' type='submit' name="submit" value='submit'>Submit</button> 
-  
-  
-</form>
-
-{% with messages = get_flashed_messages() %} 
-{% if messages %} 
-{% for message in messages %}
-<div class="flash alert alert-primary" role="alert">
-  <h3>{{ message }}</h3>
 </div>
-<h4>Click 'Next' to continue</h4>
-<form method='POST'>
-<button class='btn btn-primary' type='submit' name="next" value='next'>Next</button> 
-</form>
-{% endfor %} 
-{% endif %} 
-{% endwith %} 
+
 {% endblock %}
+
+

@@ -14,20 +14,17 @@
 <body>
     <div class="container-fluid content">
         <header>
-            <!–– bootstrap code -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            
+            <nav class="nav navbar navbar-light">
                 <a class="navbar-brand" href={{ url_for( 'index') }}>Know your plants?</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                
+                
                     <div class="navbar-nav">
-                        
-                        <a class="nav-item nav-link sign-out-link" href={{ url_for( 'index') }}><i class="fas fa-sign-out-alt"></i> Exit</a>
+                        <a class="nav-item nav-link leaderboard-link" href={{ url_for('leaderboard') }}><i class="fas fa-trophy leader-icon"></i></a>
                     </div>
-                </div>
+                
             </nav>
-            <!–– bootstrap code end -->
+           
         </header>
         <!-- Main Content -->
 
