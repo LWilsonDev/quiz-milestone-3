@@ -3,5 +3,4 @@ Dag: 1
 Dave: 4
 Rachel: 5
 Jim: 5
-Lucy: 5
-ll: 5
+
