@@ -45,6 +45,7 @@ def save_to_leaderboard(username, score):
     with open('data/leaderboard.txt', 'a') as file:
         file.writelines('{0}: {1}\n'.format(username, score))    
 
+
 ######## Routes ############
 
 @app.route('/', methods=['GET', 'POST'])
@@ -148,12 +149,13 @@ def leaderboard():
     with open('data/leaderboard.txt', 'r') as f:
         data=f.readlines()
         score_list=[]
-    # Sorting data code adapted from https://stackoverflow.com/questions/32631581/python-how-do-i-sort-integers-in-a-text-file-into-ascending-and-or-descending-o    
+    # Sorting data code (adapted to be reversed) from https://stackoverflow.com/questions/32631581/python-how-do-i-sort-integers-in-a-text-file-into-ascending-and-or-descending-o    
     for line in data:
         score_list.append(line)
         sorted_data = sorted(score_list, key=lambda item: int(item.rsplit(': ')[-1].strip()), reverse=True)
         
     return render_template('leaderboard.html',
                     sorted_data=sorted_data)
+    
     
 app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)  

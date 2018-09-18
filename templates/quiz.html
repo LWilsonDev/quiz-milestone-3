@@ -16,11 +16,11 @@
             {% with messages = get_flashed_messages() %} 
               {% if messages %} 
                 {% for message in messages %}
-            <div class="flash alert alert-primary" role="alert">
-              <h3 class='message'>{{ message }}</h3>
-            </div>
-            <h4 class='message'>Click 'Next' to continue</h4>
-            <button class='btn btn-primary' type='submit' name="next" value='next'>Next</button>  
+                  <div class="flash alert alert-primary" role="alert">
+                    <h3 class='message'>{{ message }}</h3>
+                  </div>
+                  <h4 class='message'>Click 'Next' to continue</h4>
+                  <button class='btn btn-primary' type='submit' name="next" value='next'>Next</button>  
                 {% endfor %} 
               {% endif %} 
             {% endwith %}
@@ -29,9 +29,7 @@
       </div>
     </div>
   </div>
-
 </div>
-
 {% endblock %}
 
 

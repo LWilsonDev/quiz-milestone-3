@@ -1,8 +1,5 @@
 import unittest, json
-
-
 from app import *
-
 
 class TestQuestions(unittest.TestCase):
  
