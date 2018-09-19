@@ -51,8 +51,9 @@ def save_to_leaderboard(username, score):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     #remove session incase same user is returning
-    for key in session.keys():
-        session.pop(key)
+    if "q_index" in session:
+        for key in session.keys():
+            session.pop(key)
     return render_template('index.html')    
 
 
@@ -82,7 +83,7 @@ def quiz():
                 else:
                     if session['guess'] == 2:
                         session['guess'] -= 1
-                        flash('Incorrect, try again or continue to next question')
+                        flash('Incorrect, try again or click next')
                     elif session['guess'] == 1:
                         answer = get_answer(session['q_index'])
                         session['guess'] -= 1
