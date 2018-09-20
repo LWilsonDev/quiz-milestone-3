@@ -135,4 +135,8 @@ hr {
     .leader-text {
     visibility: visible;
     }
+    .btn {
+    margin-top: 0px;
+}
+
 }

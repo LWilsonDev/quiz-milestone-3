@@ -51,9 +51,7 @@ def save_to_leaderboard(username, score):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     #remove session incase same user is returning
-    if "q_index" in session:
-        for key in session.keys():
-            session.pop(key)
+    session.clear()
     return render_template('index.html')    
 
 
