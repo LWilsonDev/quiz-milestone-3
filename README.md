@@ -2,6 +2,8 @@
 
 A little quiz using Test Driven Development, Python and Flask.
 
+The live website can be found [here](http://plant3-quiz.herokuapp.com/quiz)
+
 ## UX
 
 This is a little quiz where the user is asked to identify plants from photographs.
