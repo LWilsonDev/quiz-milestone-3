@@ -157,4 +157,4 @@ def leaderboard():
                     sorted_data=sorted_data)
     
     
-app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)  
+app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=False)  
