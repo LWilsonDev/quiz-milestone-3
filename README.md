@@ -4,13 +4,10 @@ A little quiz using Test Driven Development, Python and Flask.
 
 ## UX
 
-This could form part of a website for plant identification/gardening interest, or it could be extended to be a stand-alone quiz to be played by multiple plant enthusiasts to test their knowledge!
-
+This is a little quiz where the user is asked to identify plants from photographs.
 A user should be able to have 2 attempts at each question, and then if incorrect on the 2nd attempt should be shown the correct answer. At the end of the quiz, the user is given the option to have another go, quit, or put their score onto the leaderboard.
 
-I wanted the main feature of the quiz to be the photgraphs of the plants - which should not only be displayed clearly, but also beautifully so as to celebrate both the plants and the photography - and hopefully lead to a more pleasing UX
-
-I wanted the photos and the questions to be displayed in the one viewport across devices, so I set the photo to take up only the top portion of the page - so there is no/minimal scrolling required to play the game even on small screens. I took a mobile-first approach to help achieve this.
+I wanted the photos and the questions to be displayed in the one viewport across devices, so I set the photo to take up only the top portion of the page - so there is minimal scrolling required to play the quiz even on small screens. I took a mobile-first approach to help achieve this.
 
  
 ## Features
@@ -44,23 +41,28 @@ The routes, other game logic, and aspects of design and UX was tested manually.
 
 User scenarios that were tested:
 
-1.Question Input:
+#####Question Input:
     -User enters an incorrect answer: Guess remaining goes down to 1, and an 'incorrect' message appears
     -User inputs a 2nd incorrect answer: a different error message and the correct answer is shown.
     -The user attempts to input another answer: a message saying 'you are out of guesses' is shown.
     -Tested to make sure that the user cannot score a point by entring the correct answer after 2 guesses.
     -Tested to make sure the user cannot score another point by submitting the correct answer more than once. Had to make the 'guesses remaning' count go to 0 once the correct answer was inputed.
+    
+#####Bugs:
+- There was an issue with the session data remaining should the user decide to exit and start again. Fix: I removed the session data whenever the index page was visited
+- At the moment it is not possible to go back whilst the quiz is underway. Ideally I would provide an error message to the user and redirect but this has not been implemented yet.
+- Due to the project being hosted on Heroku, the leaderboard data will not persist. I have hard-coded a few scores, and new users data will be added to this, but will not be saved. In the future, I could use a database to achieve this.
 
 ## Deployment
 
-This section should describe the process you went through to deploy the project to a hosting platform (e.g. GitHub Pages or Heroku).
+This project was deployed using [Heroku](https://heroku.com)
 
-In particular, you should provide all details of the differences between the deployed version and the development version, if any, including:
-- Different values for environment variables (Heroku Config Vars)?
-- Different configuration files?
-- Separate git branch?
-
-In addition, if it is not obvious, you should also describe how to run your code locally.
+I used the heroku git CLI on cloud9 to deploy my code using the following steps:
+1. Create a new app in Heroku
+2. Make sure Procfile and requirements.txt files are included in the files
+3. Install Gunicorn as per the [heroku docs](https://devcenter.heroku.com/articles/python-gunicorn)
+4. Git push to the new app
+5. Set config vars on heroku to IP=0.0.0.0, PORT=5000, WEB_CONCURRENCY=3
 
 
 ## Credits
@@ -75,3 +77,4 @@ In addition, if it is not obvious, you should also describe how to run your code
 ### Acknowledgements
 
 - I received inspiration for this project from https://github.com/ckz8780/ci-pp-milestone-riddlemethis
+- I had some assistance with the heroku deployment from CI tutors and my mentor: spotting a mistake in my Procfile, and entering the web_concurrency config var.
