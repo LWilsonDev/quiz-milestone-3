@@ -41,14 +41,14 @@ The routes, other game logic, and aspects of design and UX was tested manually.
 
 User scenarios that were tested:
 
-#####Question Input:
+##### Question Input:
     -User enters an incorrect answer: Guess remaining goes down to 1, and an 'incorrect' message appears
     -User inputs a 2nd incorrect answer: a different error message and the correct answer is shown.
     -The user attempts to input another answer: a message saying 'you are out of guesses' is shown.
     -Tested to make sure that the user cannot score a point by entring the correct answer after 2 guesses.
     -Tested to make sure the user cannot score another point by submitting the correct answer more than once. Had to make the 'guesses remaning' count go to 0 once the correct answer was inputed.
     
-#####Bugs:
+##### Bugs:
 - There was an issue with the session data remaining should the user decide to exit and start again. Fix: I removed the session data whenever the index page was visited
 - At the moment it is not possible to go back whilst the quiz is underway. Ideally I would provide an error message to the user and redirect but this has not been implemented yet.
 - Due to the project being hosted on Heroku, the leaderboard data will not persist. I have hard-coded a few scores, and new users data will be added to this, but will not be saved. In the future, I could use a database to achieve this.
