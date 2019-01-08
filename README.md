@@ -2,7 +2,7 @@
 
 A little quiz using Test Driven Development, Python and Flask.
 
-The live website can be found [here](http://plant3-quiz.herokuapp.com/quiz)
+The live website can be found [here](https://plant3-quiz.herokuapp.com/)
 
 ## UX
 
